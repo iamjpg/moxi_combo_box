@@ -1,7 +1,12 @@
 (function($) {
 
   $("input[name=demo1]").moxiComboBox({
-    css: {
+    integer: {
+      start: 1,
+      end: 200,
+      increment: 1
+    },
+    containercss: {
       width: 100
     }
   });
