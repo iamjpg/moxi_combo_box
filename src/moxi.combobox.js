@@ -103,10 +103,17 @@
 $(document).on("click", (function(_this) {
   return function(e) {
     var _class, _target;
-    e.stopPropagation();
     _target = e.target || e.srcElement;
     _class = $(_target).attr("class") || "";
     if (_class.indexOf("mcb_") === -1) {
+      return $(".mcb_outer_container").hide();
+    }
+  };
+})(this));
+
+$(document).on("keydown", ".mcb_input", (function(_this) {
+  return function(e) {
+    if (e.which === 9) {
       return $(".mcb_outer_container").hide();
     }
   };
