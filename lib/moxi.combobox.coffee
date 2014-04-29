@@ -15,8 +15,9 @@
     propertyName: "value"
 
   Plugin:: =
-  
+
     init: ->
+      alert 1
 
 
   $.fn[pluginName] = (options) ->

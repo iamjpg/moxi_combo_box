@@ -12,7 +12,9 @@
     propertyName: "value"
   };
   Plugin.prototype = {
-    init: function() {}
+    init: function() {
+      return alert(1);
+    }
   };
   $.fn[pluginName] = function(options) {
     return this.each(function() {
