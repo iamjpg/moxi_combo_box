@@ -20,6 +20,7 @@
   Plugin = (element, options) ->
     @element = element
     @el = $(element)
+    @el.addClass("mcb_input")
     @resizeListener = undefined
     @innerhtml = ""
     @options = $.extend(true, {}, defaults, options)
@@ -35,6 +36,17 @@
       @setElementPosition()
       @createContainer()
       @dynamicIntegerValues()  if @options.integer
+      @setEvents()
+
+    setEvents: ->
+      @el.on("focus", =>
+        $(".mcb_outer_container").hide()
+        $("#mcb_" + @el.attr("name"))
+        .css("height", 0)
+        .show()
+        .stop()
+        .animate({ height : @options.containercss.height })
+      )
 
     createContainer: ->
 
@@ -42,9 +54,12 @@
       @options.containercss.top = @el_pos_y + @el.outerHeight()
       @options.containercss.left = @el_pos_x
 
+      @options.containercss.display = "none"
+
       # Print the div to the dom
       $("<div />",
         id: "mcb_" + @el.attr("name")
+        class: "mcb_outer_container"
         css: @options.containercss
       ).appendTo "body"
 
@@ -92,3 +107,11 @@
 
   return
 ) jQuery, window, document
+
+$(document).on("click", (e) =>
+  e.stopPropagation()
+  _target = e.target || e.srcElement
+  _class = $(_target).attr("class") || ""
+
+  $(".mcb_outer_container").hide()  if _class.indexOf("mcb_") is -1
+)

@@ -20,6 +20,7 @@
   Plugin = function(element, options) {
     this.element = element;
     this.el = $(element);
+    this.el.addClass("mcb_input");
     this.resizeListener = void 0;
     this.innerhtml = "";
     this.options = $.extend(true, {}, defaults, options);
@@ -33,14 +34,27 @@
       this.setElementPosition();
       this.createContainer();
       if (this.options.integer) {
-        return this.dynamicIntegerValues();
+        this.dynamicIntegerValues();
       }
+      return this.setEvents();
+    },
+    setEvents: function() {
+      return this.el.on("focus", (function(_this) {
+        return function() {
+          $(".mcb_outer_container").hide();
+          return $("#mcb_" + _this.el.attr("name")).css("height", 0).show().stop().animate({
+            height: _this.options.containercss.height
+          });
+        };
+      })(this));
     },
     createContainer: function() {
       this.options.containercss.top = this.el_pos_y + this.el.outerHeight();
       this.options.containercss.left = this.el_pos_x;
+      this.options.containercss.display = "none";
       $("<div />", {
         id: "mcb_" + this.el.attr("name"),
+        "class": "mcb_outer_container",
         css: this.options.containercss
       }).appendTo("body");
       return this.dd_div = $("#mcb_" + this.el.attr("name"));
@@ -85,3 +99,15 @@
     });
   };
 })(jQuery, window, document);
+
+$(document).on("click", (function(_this) {
+  return function(e) {
+    var _class, _target;
+    e.stopPropagation();
+    _target = e.target || e.srcElement;
+    _class = $(_target).attr("class") || "";
+    if (_class.indexOf("mcb_") === -1) {
+      return $(".mcb_outer_container").hide();
+    }
+  };
+})(this));
