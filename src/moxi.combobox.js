@@ -39,11 +39,27 @@
       return this.setEvents();
     },
     setEvents: function() {
-      return this.el.on("focus", (function(_this) {
+      this.el.on("focus", (function(_this) {
         return function() {
           $(".mcb_outer_container").hide();
           return $("#mcb_" + _this.el.attr("name")).css("height", 0).show().stop().animate({
             height: _this.options.containercss.height
+          });
+        };
+      })(this));
+      return this.initLiveQuery();
+    },
+    initLiveQuery: function() {
+      var el;
+      el = this.el;
+      return el.off("keypress").on("keyup", (function(_this) {
+        return function(e) {
+          return $.each($("#mcb_" + el.attr("name")).children(), function() {
+            if ($(this).html().indexOf(el.val()) === -1) {
+              return $(this).hide();
+            } else {
+              return $(this).show();
+            }
           });
         };
       })(this));
@@ -63,8 +79,8 @@
       var i, start, val;
       start = parseInt(this.options.integer.start);
       this.innerhtml += "<div class=\"mcb_inner\">" + this.options.integer.start + "</div>";
-      i = 0;
-      while (i < this.options.integer.end - 1) {
+      i = 1;
+      while (i < this.options.integer.end) {
         val = parseInt(start) + parseInt(this.options.integer.increment);
         this.innerhtml += "<div class=\"mcb_inner\">" + val + "</div>";
         start = val;

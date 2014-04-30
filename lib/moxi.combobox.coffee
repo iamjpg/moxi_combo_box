@@ -48,6 +48,19 @@
         .animate({ height : @options.containercss.height })
       )
 
+      @initLiveQuery()
+
+    initLiveQuery: ->
+      el = @el
+      el.off("keypress").on("keyup", (e) =>
+        $.each($("#mcb_" + el.attr("name")).children(), () ->
+          if $(this).html().indexOf(el.val()) is -1
+            $(this).hide()
+          else
+            $(this).show()
+        )
+      )
+
     createContainer: ->
 
       # Set the top and left css properties
@@ -68,8 +81,8 @@
     dynamicIntegerValues: ->
       start = parseInt(@options.integer.start)
       @innerhtml += "<div class=\"mcb_inner\">" + @options.integer.start + "</div>"
-      i = 0
-      while i < @options.integer.end - 1
+      i = 1
+      while i < @options.integer.end
         val = (parseInt(start) + parseInt(@options.integer.increment))
         @innerhtml += "<div class=\"mcb_inner\">" + val + "</div>"
         start = val
