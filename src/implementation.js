@@ -1,6 +1,7 @@
 (function($) {
 
   $("input[name=demo1]").moxiComboBox({
+    livequery: false,
     integer: {
       start: 1,
       end: 200,

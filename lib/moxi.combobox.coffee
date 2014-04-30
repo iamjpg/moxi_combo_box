@@ -4,6 +4,7 @@
   pluginName = "moxiComboBox"
 
   defaults =
+    livequery: true
     containercss:
       position: "absolute"
       width: 150
@@ -51,13 +52,15 @@
       @initLiveQuery()
 
     initLiveQuery: ->
+      return false  unless @options.livequery
       el = @el
       el.off("keypress").on("keyup", (e) =>
         $.each($("#mcb_" + el.attr("name")).children(), () ->
-          if $(this).html().indexOf(el.val()) is -1
-            $(this).hide()
+          _this = $(this)
+          if _this.html().indexOf(el.val()) is -1
+            _this.hide()
           else
-            $(this).show()
+            _this.show()
         )
       )
 

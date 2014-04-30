@@ -2,6 +2,7 @@
   var Plugin, defaults, pluginName;
   pluginName = "moxiComboBox";
   defaults = {
+    livequery: true,
     containercss: {
       position: "absolute",
       width: 150,
@@ -51,14 +52,18 @@
     },
     initLiveQuery: function() {
       var el;
+      if (!this.options.livequery) {
+        return false;
+      }
       el = this.el;
       return el.off("keypress").on("keyup", (function(_this) {
         return function(e) {
           return $.each($("#mcb_" + el.attr("name")).children(), function() {
-            if ($(this).html().indexOf(el.val()) === -1) {
-              return $(this).hide();
+            _this = $(this);
+            if (_this.html().indexOf(el.val()) === -1) {
+              return _this.hide();
             } else {
-              return $(this).show();
+              return _this.show();
             }
           });
         };
