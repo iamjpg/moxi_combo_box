@@ -24,6 +24,7 @@
     @el.addClass("mcb_input")
     @resizeListener = undefined
     @innerhtml = ""
+    @live_query_lock = false
     @options = $.extend(true, {}, defaults, options)
     @_defaults = defaults
     @_name = pluginName
@@ -52,17 +53,40 @@
       @initLiveQuery()
 
     initLiveQuery: ->
-      return false  unless @options.livequery
+      return false  unless @options.livequery or @live_query_lock
+
       el = @el
+
       el.off("keypress").on("keyup", (e) =>
-        $.each($("#mcb_" + el.attr("name")).children(), () ->
-          _this = $(this)
-          if _this.html().indexOf(el.val()) is -1
-            _this.hide()
-          else
-            _this.show()
-        )
+
+        clearTimeout @keyUpListener
+        @keyUpListener = setTimeout(=>
+          @filterResults()
+        , 200)
+        return
+
       )
+
+    filterResults: ->
+
+      el = @el
+
+      $.each($(".mcb_inner_wrapper").children(), () ->
+        _this = $(this)
+        if _this.html().indexOf(el.val()) is -1
+          _this.hide()
+        else
+          _this.show()
+      )
+
+      if ($(".mcb_inner_wrapper").outerHeight() < $("#mcb_" + @el.attr("name")).outerHeight())
+        h = $(".mcb_inner_wrapper").outerHeight()
+
+      else
+        h = @options.containercss.height
+
+      $("#mcb_" + @el.attr("name")).css
+        height: h
 
     createContainer: ->
 
@@ -82,8 +106,11 @@
       @dd_div = $("#mcb_" + @el.attr("name"))
 
     dynamicIntegerValues: ->
+
       start = parseInt(@options.integer.start)
+
       @innerhtml += "<div class=\"mcb_inner\">" + @options.integer.start + "</div>"
+
       i = 1
       while i < @options.integer.end
         val = (parseInt(start) + parseInt(@options.integer.increment))
@@ -92,6 +119,8 @@
         i++
 
       @dd_div.html(@innerhtml)
+
+      $("#mcb_" + @el.attr("name")).wrapInner("<div class=\"mcb_inner_wrapper\"></div>")
 
       $(".mcb_inner").css(@options.innercss)
 

@@ -24,6 +24,7 @@
     this.el.addClass("mcb_input");
     this.resizeListener = void 0;
     this.innerhtml = "";
+    this.live_query_lock = false;
     this.options = $.extend(true, {}, defaults, options);
     this._defaults = defaults;
     this._name = pluginName;
@@ -52,22 +53,39 @@
     },
     initLiveQuery: function() {
       var el;
-      if (!this.options.livequery) {
+      if (!(this.options.livequery || this.live_query_lock)) {
         return false;
       }
       el = this.el;
       return el.off("keypress").on("keyup", (function(_this) {
         return function(e) {
-          return $.each($("#mcb_" + el.attr("name")).children(), function() {
-            _this = $(this);
-            if (_this.html().indexOf(el.val()) === -1) {
-              return _this.hide();
-            } else {
-              return _this.show();
-            }
-          });
+          clearTimeout(_this.keyUpListener);
+          _this.keyUpListener = setTimeout(function() {
+            return _this.filterResults();
+          }, 200);
         };
       })(this));
+    },
+    filterResults: function() {
+      var el, h;
+      el = this.el;
+      $.each($(".mcb_inner_wrapper").children(), function() {
+        var _this;
+        _this = $(this);
+        if (_this.html().indexOf(el.val()) === -1) {
+          return _this.hide();
+        } else {
+          return _this.show();
+        }
+      });
+      if ($(".mcb_inner_wrapper").outerHeight() < $("#mcb_" + this.el.attr("name")).outerHeight()) {
+        h = $(".mcb_inner_wrapper").outerHeight();
+      } else {
+        h = this.options.containercss.height;
+      }
+      return $("#mcb_" + this.el.attr("name")).css({
+        height: h
+      });
     },
     createContainer: function() {
       this.options.containercss.top = this.el_pos_y + this.el.outerHeight();
@@ -92,6 +110,7 @@
         i++;
       }
       this.dd_div.html(this.innerhtml);
+      $("#mcb_" + this.el.attr("name")).wrapInner("<div class=\"mcb_inner_wrapper\"></div>");
       return $(".mcb_inner").css(this.options.innercss);
     },
     setElementPosition: function() {

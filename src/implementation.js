@@ -1,14 +1,14 @@
 (function($) {
 
   $("input[name=demo1]").moxiComboBox({
-    livequery: false,
+    livequery: true,
     integer: {
-      start: 1,
-      end: 200,
-      increment: 1
+      start: 100,
+      end: 10000,
+      increment: 10
     },
     containercss: {
-      width: 100
+
     }
   });
 
