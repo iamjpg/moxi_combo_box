@@ -88,7 +88,11 @@
       })(this);
     },
     resizedWindow: function() {
-      return console.log("window resized");
+      this.setElementPosition();
+      return $("#mcb_" + this.el.attr("name")).css({
+        top: this.el_pos_y + this.el.outerHeight(),
+        left: this.el_pos_x
+      });
     }
   };
   $.fn[pluginName] = function(options) {

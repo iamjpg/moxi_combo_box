@@ -93,10 +93,11 @@
         return
 
     resizedWindow: ->
-      console.log "window resized"
+      @setElementPosition()
 
-
-
+      $("#mcb_" + @el.attr("name")).css
+        top: @el_pos_y + @el.outerHeight()
+        left: @el_pos_x
 
 
 
