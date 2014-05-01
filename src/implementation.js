@@ -3,9 +3,10 @@
   $("input[name=demo1]").moxiComboBox({
     livequery: true,
     integer: {
-      start: 100,
-      end: 10000,
-      increment: 10
+      start: 1000,
+      end: 10000000,
+      increment: 10,
+      prepend: '$'
     },
     containercss: {
 

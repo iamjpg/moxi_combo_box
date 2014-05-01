@@ -17,6 +17,9 @@
       padding: 10
       "margin-bottom": 1
       background: "#dcdcdc"
+    integer:
+      prepend: ''
+      append: ''
 
   Plugin = (element, options) ->
     @element = element
@@ -109,20 +112,52 @@
 
       start = parseInt(@options.integer.start)
 
-      @innerhtml += "<div class=\"mcb_inner\">" + @options.integer.start + "</div>"
+      @innerhtml += "<div class=\"mcb_inner\">" + @parseInteger(@options.integer.start) + "</div>"
 
-      i = 1
-      while i < @options.integer.end
-        val = (parseInt(start) + parseInt(@options.integer.increment))
-        @innerhtml += "<div class=\"mcb_inner\">" + val + "</div>"
+      #i = 1
+      while start < @options.integer.end
+        val = (parseInt(start) + @returnIncrement(parseInt(start)))
+        @innerhtml += "<div class=\"mcb_inner\">" + @parseInteger(val) + "</div>"
         start = val
-        i++
+        #i++
 
       @dd_div.html(@innerhtml)
 
       $("#mcb_" + @el.attr("name")).wrapInner("<div class=\"mcb_inner_wrapper\"></div>")
 
       $(".mcb_inner").css(@options.innercss)
+
+    parseInteger: (val) ->
+      return false  if val is `undefined`
+      if @options.integer
+        val = val.format()
+      else
+        val = val
+
+      return @options.integer.prepend + val + @options.integer.append
+
+
+    returnIncrement: (val) ->
+      inc = 1
+      if val < 10
+        inc = 1
+      else if val >= 10 and val < 100
+        inc = 10
+      else if val >= 100 and val < 1000
+        inc = 100
+      else if val >= 1000 and val < 10000
+        inc = 1000
+      else if val >= 10000 and val < 100000
+        inc = 10000
+      else if val >= 10000 and val < 500000
+        inc = 25000
+      else if val >= 500000 and val < 1000000
+        inc = 50000
+      else if val >= 1000000 and val < 2000000
+        inc = 100000
+      else
+        inc = 1000000
+
 
     setElementPosition: ->
       # set the x/y of the element.
@@ -166,3 +201,7 @@ $(document).on("click", (e) =>
 $(document).on("keydown", ".mcb_input", (e) =>
   $(".mcb_outer_container").hide()  if e.which is 9
 )
+
+Number::format = (n, x) ->
+  re = "\\d(?=(\\d{" + (x or 3) + "})+" + ((if n > 0 then "\\." else "$")) + ")"
+  @toFixed(Math.max(0, ~~n)).replace new RegExp(re, "g"), "$&,"

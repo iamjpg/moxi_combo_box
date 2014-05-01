@@ -16,6 +16,10 @@
       padding: 10,
       "margin-bottom": 1,
       background: "#dcdcdc"
+    },
+    integer: {
+      prepend: '',
+      append: ''
     }
   };
   Plugin = function(element, options) {
@@ -99,19 +103,51 @@
       return this.dd_div = $("#mcb_" + this.el.attr("name"));
     },
     dynamicIntegerValues: function() {
-      var i, start, val;
+      var start, val;
       start = parseInt(this.options.integer.start);
-      this.innerhtml += "<div class=\"mcb_inner\">" + this.options.integer.start + "</div>";
-      i = 1;
-      while (i < this.options.integer.end) {
-        val = parseInt(start) + parseInt(this.options.integer.increment);
-        this.innerhtml += "<div class=\"mcb_inner\">" + val + "</div>";
+      this.innerhtml += "<div class=\"mcb_inner\">" + this.parseInteger(this.options.integer.start) + "</div>";
+      while (start < this.options.integer.end) {
+        val = parseInt(start) + this.returnIncrement(parseInt(start));
+        this.innerhtml += "<div class=\"mcb_inner\">" + this.parseInteger(val) + "</div>";
         start = val;
-        i++;
       }
       this.dd_div.html(this.innerhtml);
       $("#mcb_" + this.el.attr("name")).wrapInner("<div class=\"mcb_inner_wrapper\"></div>");
       return $(".mcb_inner").css(this.options.innercss);
+    },
+    parseInteger: function(val) {
+      if (val === undefined) {
+        return false;
+      }
+      if (this.options.integer) {
+        val = val.format();
+      } else {
+        val = val;
+      }
+      return this.options.integer.prepend + val + this.options.integer.append;
+    },
+    returnIncrement: function(val) {
+      var inc;
+      inc = 1;
+      if (val < 10) {
+        return inc = 1;
+      } else if (val >= 10 && val < 100) {
+        return inc = 10;
+      } else if (val >= 100 && val < 1000) {
+        return inc = 100;
+      } else if (val >= 1000 && val < 10000) {
+        return inc = 1000;
+      } else if (val >= 10000 && val < 100000) {
+        return inc = 10000;
+      } else if (val >= 10000 && val < 500000) {
+        return inc = 25000;
+      } else if (val >= 500000 && val < 1000000) {
+        return inc = 50000;
+      } else if (val >= 1000000 && val < 2000000) {
+        return inc = 100000;
+      } else {
+        return inc = 1000000;
+      }
     },
     setElementPosition: function() {
       this.el_pos_y = this.el.offset().top;
@@ -162,3 +198,9 @@ $(document).on("keydown", ".mcb_input", (function(_this) {
     }
   };
 })(this));
+
+Number.prototype.format = function(n, x) {
+  var re;
+  re = "\\d(?=(\\d{" + (x || 3) + "})+" + (n > 0 ? "\\." : "$") + ")";
+  return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, "g"), "$&,");
+};
