@@ -61,13 +61,7 @@
       el = @el
 
       el.off("keypress").on("keyup", (e) =>
-
-        clearTimeout @keyUpListener
-        @keyUpListener = setTimeout(=>
-          @filterResults()
-        , 200)
-        return
-
+        @filterResults()
       )
 
     filterResults: ->
@@ -76,20 +70,23 @@
 
       $.each($(".mcb_inner_wrapper").children(), () ->
         _this = $(this)
-        if _this.html().indexOf(el.val()) is -1
+        if _this.html().replace(/,/g, '').indexOf(el.val()) is -1
           _this.hide()
         else
           _this.show()
       )
 
-      if ($(".mcb_inner_wrapper").outerHeight() < $("#mcb_" + @el.attr("name")).outerHeight())
-        h = $(".mcb_inner_wrapper").outerHeight()
+      setTimeout(=>
+        if ($(".mcb_inner_wrapper").outerHeight() < $("#mcb_" + @el.attr("name")).outerHeight())
+          h = $(".mcb_inner_wrapper").outerHeight()
 
-      else
-        h = @options.containercss.height
+        else
+          h = @options.containercss.height
 
-      $("#mcb_" + @el.attr("name")).css
-        height: h
+        $("#mcb_" + @el.attr("name")).css
+          height: h
+      , 200)
+
 
     createContainer: ->
 
