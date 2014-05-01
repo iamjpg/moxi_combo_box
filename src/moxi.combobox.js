@@ -39,7 +39,7 @@
       this.setResizeListener();
       this.setElementPosition();
       this.createContainer();
-      if (this.options.integer) {
+      if (this.options.integer.start) {
         this.dynamicIntegerValues();
       }
       return this.setEvents();
@@ -73,7 +73,7 @@
       $.each($(".mcb_inner_wrapper").children(), function() {
         var _this;
         _this = $(this);
-        if (_this.html().replace(/,/g, '').indexOf(el.val()) === -1) {
+        if (_this.html().replace(/[^0-9\.]+/g, '').indexOf(el.val()) === -1) {
           return _this.hide();
         } else {
           return _this.show();

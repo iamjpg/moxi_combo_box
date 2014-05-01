@@ -40,7 +40,7 @@
       @setResizeListener()
       @setElementPosition()
       @createContainer()
-      @dynamicIntegerValues()  if @options.integer
+      @dynamicIntegerValues()  if @options.integer.start
       @setEvents()
 
     setEvents: ->
@@ -70,7 +70,7 @@
 
       $.each($(".mcb_inner_wrapper").children(), () ->
         _this = $(this)
-        if _this.html().replace(/,/g, '').indexOf(el.val()) is -1
+        if _this.html().replace(/[^0-9\.]+/g, '').indexOf(el.val()) is -1
           _this.hide()
         else
           _this.show()
