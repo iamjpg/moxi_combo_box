@@ -42,9 +42,9 @@
       @setElementPosition()
       @createContainer()
       @dynamicIntegerValues()  if @options.integer.start
-      @setEvents()
+      @setGeneralEvents()
 
-    setEvents: ->
+    setGeneralEvents: ->
 
       _this = @
 
@@ -111,7 +111,7 @@
 
     dynamicIntegerValues: ->
 
-      _this = @
+      @injectLabel(@options.prelabel)
 
       start = parseInt(@options.integer.start)
 
@@ -122,16 +122,26 @@
         @innerhtml += "<div class=\"mcb_inner\">" + @parseInteger(val) + "</div>"
         start = val
 
+      @injectLabel(@options.postlabel)
+
       @dd_div.html(@innerhtml)
 
       $("#mcb_" + @el.attr("name")).wrapInner("<div class=\"mcb_inner_wrapper\"></div>")
 
+      $(".mcb_inner").css(@options.innercss)
+
+      @setClickEvents()
+
+    injectLabel: (label) ->
+      return false  unless label
+      @innerhtml += "<div class=\"mcb_inner\">" + label + "</div>"
+
+    setClickEvents: ->
+      _this = @
       $(".mcb_inner_wrapper").children().on("click", ->
         _this.el.val($(this).html())
         _this.dd_div.hide()
       )
-
-      $(".mcb_inner").css(@options.innercss)
 
     parseInteger: (val) ->
       return false  if val is `undefined`

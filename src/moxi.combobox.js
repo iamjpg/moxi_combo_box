@@ -43,9 +43,9 @@
       if (this.options.integer.start) {
         this.dynamicIntegerValues();
       }
-      return this.setEvents();
+      return this.setGeneralEvents();
     },
-    setEvents: function() {
+    setGeneralEvents: function() {
       var _this;
       _this = this;
       this.el.on("focus", (function(_this) {
@@ -108,8 +108,8 @@
       return this.dd_div = $("#mcb_" + this.el.attr("name"));
     },
     dynamicIntegerValues: function() {
-      var start, val, _this;
-      _this = this;
+      var start, val;
+      this.injectLabel(this.options.prelabel);
       start = parseInt(this.options.integer.start);
       this.innerhtml += "<div class=\"mcb_inner\">" + this.parseInteger(this.options.integer.start) + "</div>";
       while (start < this.options.integer.end) {
@@ -117,13 +117,25 @@
         this.innerhtml += "<div class=\"mcb_inner\">" + this.parseInteger(val) + "</div>";
         start = val;
       }
+      this.injectLabel(this.options.postlabel);
       this.dd_div.html(this.innerhtml);
       $("#mcb_" + this.el.attr("name")).wrapInner("<div class=\"mcb_inner_wrapper\"></div>");
-      $(".mcb_inner_wrapper").children().on("click", function() {
+      $(".mcb_inner").css(this.options.innercss);
+      return this.setClickEvents();
+    },
+    injectLabel: function(label) {
+      if (!label) {
+        return false;
+      }
+      return this.innerhtml += "<div class=\"mcb_inner\">" + label + "</div>";
+    },
+    setClickEvents: function() {
+      var _this;
+      _this = this;
+      return $(".mcb_inner_wrapper").children().on("click", function() {
         _this.el.val($(this).html());
         return _this.dd_div.hide();
       });
-      return $(".mcb_inner").css(this.options.innercss);
     },
     parseInteger: function(val) {
       if (val === undefined) {

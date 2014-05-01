@@ -2,6 +2,8 @@
 
   $("input[name=demo1]").moxiComboBox({
     livequery: true,
+    prelabel: 'No Max',
+    postlabel: 'No Max',
     integer: {
       start: 1000,
       end: 10000000,
