@@ -15,7 +15,8 @@
     innercss: {
       padding: 10,
       "margin-bottom": 1,
-      background: "#dcdcdc"
+      background: "#dcdcdc",
+      cursor: "pointer"
     },
     integer: {
       prepend: '',
@@ -45,6 +46,8 @@
       return this.setEvents();
     },
     setEvents: function() {
+      var _this;
+      _this = this;
       this.el.on("focus", (function(_this) {
         return function() {
           $(".mcb_outer_container").hide();
@@ -105,7 +108,8 @@
       return this.dd_div = $("#mcb_" + this.el.attr("name"));
     },
     dynamicIntegerValues: function() {
-      var start, val;
+      var start, val, _this;
+      _this = this;
       start = parseInt(this.options.integer.start);
       this.innerhtml += "<div class=\"mcb_inner\">" + this.parseInteger(this.options.integer.start) + "</div>";
       while (start < this.options.integer.end) {
@@ -115,6 +119,10 @@
       }
       this.dd_div.html(this.innerhtml);
       $("#mcb_" + this.el.attr("name")).wrapInner("<div class=\"mcb_inner_wrapper\"></div>");
+      $(".mcb_inner_wrapper").children().on("click", function() {
+        _this.el.val($(this).html());
+        return _this.dd_div.hide();
+      });
       return $(".mcb_inner").css(this.options.innercss);
     },
     parseInteger: function(val) {

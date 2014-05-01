@@ -17,6 +17,7 @@
       padding: 10
       "margin-bottom": 1
       background: "#dcdcdc"
+      cursor: "pointer"
     integer:
       prepend: ''
       append: ''
@@ -44,6 +45,9 @@
       @setEvents()
 
     setEvents: ->
+
+      _this = @
+
       @el.on("focus", =>
         $(".mcb_outer_container").hide()
         $("#mcb_" + @el.attr("name"))
@@ -107,20 +111,25 @@
 
     dynamicIntegerValues: ->
 
+      _this = @
+
       start = parseInt(@options.integer.start)
 
       @innerhtml += "<div class=\"mcb_inner\">" + @parseInteger(@options.integer.start) + "</div>"
 
-      #i = 1
       while start < @options.integer.end
         val = (parseInt(start) + @returnIncrement(parseInt(start)))
         @innerhtml += "<div class=\"mcb_inner\">" + @parseInteger(val) + "</div>"
         start = val
-        #i++
 
       @dd_div.html(@innerhtml)
 
       $("#mcb_" + @el.attr("name")).wrapInner("<div class=\"mcb_inner_wrapper\"></div>")
+
+      $(".mcb_inner_wrapper").children().on("click", ->
+        _this.el.val($(this).html())
+        _this.dd_div.hide()
+      )
 
       $(".mcb_inner").css(@options.innercss)
 
