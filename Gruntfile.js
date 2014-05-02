@@ -34,14 +34,22 @@ module.exports = function (grunt) {
             'src/moxi.combobox.min.js': ['src/moxi.combobox.js']
           }
         }
+      },
+      docco: {
+        debug: {
+          src: ['lib/*.coffee'],
+          options: {
+            output: 'docs/'
+          }
+        }
       }
-
     });
 
     // These plugins provide necessary tasks
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-coffee');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-docco');
 
     // Default task
     grunt.registerTask('default', ['watch']);

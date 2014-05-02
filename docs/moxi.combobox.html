@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>moxi.combobox.coffee</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>moxi.combobox.coffee</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              <ul>
+<li>jQuery ComboBox Plugin</li>
+<li>Original author: @iamjpg <a href="&#109;&#x61;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#106;&#x67;&#105;&#118;&#101;&#110;&#x40;&#103;&#x6d;&#x61;&#x69;&#108;&#46;&#x63;&#111;&#109;">&#106;&#x67;&#105;&#118;&#101;&#110;&#x40;&#103;&#x6d;&#x61;&#x69;&#108;&#46;&#x63;&#111;&#109;</a></li>
+<li>Licensed under the MIT license</li>
+</ul>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+<span class="hljs-function"><span class="hljs-params">(($, <span class="hljs-built_in">window</span>, <span class="hljs-built_in">document</span>) -&gt;
+
+</span></span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Name the plugin</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  pluginName = <span class="hljs-string">"moxiComboBox"</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>Default object properties</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  defaults =
+    <span class="hljs-attribute">livequery</span>: <span class="hljs-literal">true</span>
+    <span class="hljs-attribute">containercss</span>:
+      <span class="hljs-attribute">position</span>: <span class="hljs-string">"absolute"</span>
+      <span class="hljs-attribute">width</span>: <span class="hljs-number">150</span>
+      <span class="hljs-attribute">height</span>: <span class="hljs-number">200</span>
+      <span class="hljs-attribute">background</span>: <span class="hljs-string">"#f5f5f5"</span>
+      <span class="hljs-attribute">overflow</span>: <span class="hljs-string">"auto"</span>
+      <span class="hljs-string">"-webkit-box-shadow"</span>: <span class="hljs-string">"0 5px 10px 0 #B8B8B8"</span>
+      <span class="hljs-string">"box-shadow"</span>: <span class="hljs-string">"0 5px 10px 0 #B8B8B8"</span>
+    <span class="hljs-attribute">innercss</span>:
+      <span class="hljs-attribute">padding</span>: <span class="hljs-number">10</span>
+      <span class="hljs-string">"margin-bottom"</span>: <span class="hljs-number">1</span>
+      <span class="hljs-attribute">background</span>: <span class="hljs-string">"#dcdcdc"</span>
+      <span class="hljs-attribute">cursor</span>: <span class="hljs-string">"pointer"</span>
+    <span class="hljs-attribute">integer</span>:
+      <span class="hljs-attribute">prepend</span>: <span class="hljs-string">''</span>
+      <span class="hljs-attribute">append</span>: <span class="hljs-string">''</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Constructor</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-title">Plugin</span> = <span class="hljs-params">(element, options)</span> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Native DOM element reference</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-property">@element</span> = element</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>jQuery object of DOM element</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-property">@el</span> = $(element)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Adding a class to the input object</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-property">@el</span>.addClass(<span class="hljs-string">"mcb_input"</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>Default innerHTML to “”</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-property">@innerhtml</span> = <span class="hljs-string">""</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>Map passed option values</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-property">@options</span> = $.extend(<span class="hljs-literal">true</span>, {}, defaults, options)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>Call the init method</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-property">@init</span>()
+    <span class="hljs-keyword">return</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>Object prototype</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-attribute">Plugin</span>:: =</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>init()</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-attribute">init</span>:<span class="hljs-function"> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>Create the container for dropdown</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-property">@createContainer</span>()</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>If the plugin user passes an integer range, then create the dropdown
+dynamically</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-property">@dynamicIntegerValues</span>()  <span class="hljs-keyword">if</span> <span class="hljs-property">@options</span>.integer.start</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p>Set events</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-property">@setGeneralEvents</span>()</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>setGeneralEvents()</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-attribute">setGeneralEvents</span>:<span class="hljs-function"> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>Local object reference</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      _this = @</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <p>On focus of input element, animate the corresponding dropdown.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-property">@el</span>.<span class="hljs-literal">on</span>(<span class="hljs-string">"focus"</span>,<span class="hljs-function"> =&gt;</span>
+        $(<span class="hljs-string">".mcb_outer_container"</span>).hide()
+        $(<span class="hljs-string">"#mcb_"</span> + <span class="hljs-property">@el</span>.attr(<span class="hljs-string">"name"</span>))
+        .css(<span class="hljs-string">"height"</span>, <span class="hljs-number">0</span>)
+        .show()
+        .stop()
+        .animate({ height : <span class="hljs-property">@options</span>.containercss.height },<span class="hljs-function"> =&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <p>@setContainerHeight()</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        )
+      )</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <p>Enable live query</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-property">@initLiveQuery</span>()</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-21">&#182;</a>
+              </div>
+              <p>initLiveQuery()</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-attribute">initLiveQuery</span>:<span class="hljs-function"> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-22">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-22">&#182;</a>
+              </div>
+              <p>return false if user opts out of livequery</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>  <span class="hljs-keyword">unless</span> <span class="hljs-property">@options</span>.livequery</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-23">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-23">&#182;</a>
+              </div>
+              <p>On keyup, filter results</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-property">@el</span>.<span class="hljs-literal">off</span><span class="hljs-function"><span class="hljs-params">(<span class="hljs-string">"keypress"</span>)</span>.<span class="hljs-title">on</span><span class="hljs-params">(<span class="hljs-string">"keyup"</span>, (e) =&gt;
+        <span class="hljs-property">@filterResults</span>()
+      )</span>
+
+</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-24">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-24">&#182;</a>
+              </div>
+              <p>filterResults()</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-attribute">filterResults</span>:<span class="hljs-function"> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-25">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-25">&#182;</a>
+              </div>
+              <p>jQuery element reference</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      el = <span class="hljs-property">@el</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-26">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-26">&#182;</a>
+              </div>
+              <p>loop the elements looking for a match then show or hide element.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      $.each<span class="hljs-function"><span class="hljs-params">($(<span class="hljs-string">".mcb_inner_wrapper"</span>).children(), () -&gt;
+        _this = $(<span class="hljs-keyword">this</span>)
+        <span class="hljs-keyword">if</span> _this.html().indexOf(el.val()) <span class="hljs-keyword">is</span> -<span class="hljs-number">1</span>
+          _this.hide()
+        <span class="hljs-keyword">else</span>
+          _this.show()
+      )</span>
+</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-27">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-27">&#182;</a>
+              </div>
+              <p>Set the container height based on the new filtered list</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-property">@setContainerHeight</span>()</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-28">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-28">&#182;</a>
+              </div>
+              <p>calculateContainerHeight()
+Returns an object containing the values for container height + overflow</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-attribute">calculateContainerHeight</span>:<span class="hljs-function"> -&gt;</span>
+      obj = {}
+      <span class="hljs-keyword">if</span> ($(<span class="hljs-string">".mcb_inner_wrapper"</span>).outerHeight() &lt;= $(<span class="hljs-string">"#mcb_"</span> + <span class="hljs-property">@el</span>.attr(<span class="hljs-string">"name"</span>)).outerHeight())
+        obj.h = $(<span class="hljs-string">".mcb_inner_wrapper"</span>).outerHeight()
+        obj.overflow = <span class="hljs-string">"none"</span>
+      <span class="hljs-keyword">else</span>
+        obj.h = <span class="hljs-property">@options</span>.containercss.height
+        obj.overflow = <span class="hljs-string">"auto"</span>
+
+      obj</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-29">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-29">&#182;</a>
+              </div>
+              <p>setContainerHeight()
+Responsible for setting the height on the dropdown</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-attribute">setContainerHeight</span>:<span class="hljs-function"> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-30">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-30">&#182;</a>
+              </div>
+              <p>get container height values</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      obj = <span class="hljs-property">@calculateContainerHeight</span>()</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-31">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-31">&#182;</a>
+              </div>
+              <p>set values on object</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      $(<span class="hljs-string">"#mcb_"</span> + <span class="hljs-property">@el</span>.attr(<span class="hljs-string">"name"</span>)).css
+        <span class="hljs-attribute">height</span>: obj.h
+        <span class="hljs-attribute">overflow</span>: obj.overflow</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-32">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-32">&#182;</a>
+              </div>
+              <p>createContainer()
+Responsible for creating the dropdown container</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-attribute">createContainer</span>:<span class="hljs-function"> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-33">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-33">&#182;</a>
+              </div>
+              <p>Hide containers</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-property">@options</span>.containercss.display = <span class="hljs-string">"none"</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-34">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-34">&#182;</a>
+              </div>
+              <p>Create and print the elements parent node setting CSS.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      $("&lt;div /&gt;",
+        id: "mcb_" + @el.attr("name")
+        class: "mcb_outer_container"
+        css: @options.containercss
+      ).appendTo @el.parent()</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-35">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-35">&#182;</a>
+              </div>
+              <p>Object reference to the drop down container</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-property">@dd_div</span> = $(<span class="hljs-string">"#mcb_"</span> + <span class="hljs-property">@el</span>.attr(<span class="hljs-string">"name"</span>))</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-36">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-36">&#182;</a>
+              </div>
+              <p>dynamicIntegerValues()
+Responsible for creating the interior dropdown values from the numeric
+range passed by the user.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-attribute">dynamicIntegerValues</span>:<span class="hljs-function"> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-37">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-37">&#182;</a>
+              </div>
+              <p>If there is a prelabel, inject it.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-property">@injectLabel</span>(<span class="hljs-property">@options</span>.prelabel)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-38">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-38">&#182;</a>
+              </div>
+              <p>The numeric start value</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      start = parseInt(<span class="hljs-property">@options</span>.integer.start)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-39">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-39">&#182;</a>
+              </div>
+              <p>create the first div with the first value</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-property">@innerhtml</span> += <span class="hljs-string">"&lt;div class=\"mcb_inner\"&gt;"</span> + <span class="hljs-property">@parseInteger</span>(<span class="hljs-property">@options</span>.integer.start) + <span class="hljs-string">"&lt;/div&gt;"</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-40">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-40">&#182;</a>
+              </div>
+              <p>Loop over integer range creating dropdown values</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">while</span> start &lt; <span class="hljs-property">@options</span>.integer.end
+        val = (parseInt(start) + <span class="hljs-property">@returnIncrement</span>(parseInt(start)))
+        <span class="hljs-property">@innerhtml</span> += <span class="hljs-string">"&lt;div class=\"mcb_inner\" data-inputelement=\""</span> + <span class="hljs-property">@el</span>.attr(<span class="hljs-string">"name"</span>) + <span class="hljs-string">"\"&gt;"</span> + <span class="hljs-property">@parseInteger</span>(val) + <span class="hljs-string">"&lt;/div&gt;"</span>
+        start = val</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-41">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-41">&#182;</a>
+              </div>
+              <p>Inject the postlabel if there is one</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-property">@injectLabel</span>(<span class="hljs-property">@options</span>.postlabel)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-42">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-42">&#182;</a>
+              </div>
+              <p>Print innerhtml to the dropdown div</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-property">@dd_div</span>.html(<span class="hljs-property">@innerhtml</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-43">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-43">&#182;</a>
+              </div>
+              <p>Wrap the innerhtml with another div</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      $(<span class="hljs-string">"#mcb_"</span> + <span class="hljs-property">@el</span>.attr(<span class="hljs-string">"name"</span>)).wrapInner(<span class="hljs-string">"&lt;div class=\"mcb_inner_wrapper\"&gt;&lt;/div&gt;"</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-44">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-44">&#182;</a>
+              </div>
+              <p>Set the CSS on the individual divs</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      $(<span class="hljs-string">".mcb_inner"</span>).css(<span class="hljs-property">@options</span>.innercss)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-45">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-45">&#182;</a>
+              </div>
+              <p>set click events</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-property">@setClickEvents</span>()</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-46">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-46">&#182;</a>
+              </div>
+              <p>injectLabel()
+Responsible for injecting labels like “No Min” or “No Max” for dynamically
+created integer fields.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-attribute">injectLabel</span>: <span class="hljs-function"><span class="hljs-params">(label)</span> -&gt;</span>
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>  <span class="hljs-keyword">unless</span> label
+      <span class="hljs-property">@innerhtml</span> += <span class="hljs-string">"&lt;div class=\"mcb_inner\"&gt;"</span> + label + <span class="hljs-string">"&lt;/div&gt;"</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-47">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-47">&#182;</a>
+              </div>
+              <p>setClickEvents()
+Responsible for setting click events on the individual dropdown divs.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-attribute">setClickEvents</span>: <span class="hljs-function"><span class="hljs-params">(obj)</span> -&gt;</span>
+      _this = @
+      $(<span class="hljs-string">".mcb_inner_wrapper"</span>).children().<span class="hljs-literal">on</span>(<span class="hljs-string">"click"</span>,<span class="hljs-function"> -&gt;</span>
+        $(<span class="hljs-string">"input[name="</span> + $(<span class="hljs-keyword">this</span>).data(<span class="hljs-string">"inputelement"</span>) + <span class="hljs-string">"]"</span>).val($(<span class="hljs-keyword">this</span>).html())
+        _this.dd_div.hide()
+      )</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-48">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-48">&#182;</a>
+              </div>
+              <p>parseInteger()
+Responsible for formatting integers with commas</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-attribute">parseInteger</span>: <span class="hljs-function"><span class="hljs-params">(val)</span> -&gt;</span>
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>  <span class="hljs-keyword">if</span> val <span class="hljs-keyword">is</span> `<span class="javascript"><span class="hljs-literal">undefined</span></span>`
+      <span class="hljs-keyword">if</span> <span class="hljs-property">@options</span>.integer.start
+        val = val.format()
+      <span class="hljs-keyword">else</span>
+        val = val
+
+      <span class="hljs-keyword">return</span> <span class="hljs-property">@options</span>.integer.prepend + val + <span class="hljs-property">@options</span>.integer.append</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-49">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-49">&#182;</a>
+              </div>
+              <p>returnIncrement()
+Our set integer value increment.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-attribute">returnIncrement</span>: <span class="hljs-function"><span class="hljs-params">(val)</span> -&gt;</span>
+      inc = <span class="hljs-number">1</span>
+      <span class="hljs-keyword">if</span> val &lt; <span class="hljs-number">10</span>
+        inc = <span class="hljs-number">1</span>
+      <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> val &gt;= <span class="hljs-number">10</span> <span class="hljs-keyword">and</span> val &lt; <span class="hljs-number">100</span>
+        inc = <span class="hljs-number">10</span>
+      <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> val &gt;= <span class="hljs-number">100</span> <span class="hljs-keyword">and</span> val &lt; <span class="hljs-number">1000</span>
+        inc = <span class="hljs-number">100</span>
+      <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> val &gt;= <span class="hljs-number">1000</span> <span class="hljs-keyword">and</span> val &lt; <span class="hljs-number">10000</span>
+        inc = <span class="hljs-number">1000</span>
+      <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> val &gt;= <span class="hljs-number">10000</span> <span class="hljs-keyword">and</span> val &lt; <span class="hljs-number">100000</span>
+        inc = <span class="hljs-number">10000</span>
+      <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> val &gt;= <span class="hljs-number">10000</span> <span class="hljs-keyword">and</span> val &lt; <span class="hljs-number">500000</span>
+        inc = <span class="hljs-number">25000</span>
+      <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> val &gt;= <span class="hljs-number">500000</span> <span class="hljs-keyword">and</span> val &lt; <span class="hljs-number">1000000</span>
+        inc = <span class="hljs-number">50000</span>
+      <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> val &gt;= <span class="hljs-number">1000000</span> <span class="hljs-keyword">and</span> val &lt; <span class="hljs-number">2000000</span>
+        inc = <span class="hljs-number">100000</span>
+      <span class="hljs-keyword">else</span>
+        inc = <span class="hljs-number">1000000</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-50">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-50">&#182;</a>
+              </div>
+              <p>Plugin constructor wrapper</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  $.fn[pluginName] = <span class="hljs-function"><span class="hljs-params">(options)</span> -&gt;</span>
+    <span class="hljs-property">@each</span><span class="hljs-function"> -&gt;</span>
+      $.data <span class="hljs-keyword">this</span>, <span class="hljs-string">"plugin_"</span> + pluginName, <span class="hljs-keyword">new</span> Plugin(<span class="hljs-keyword">this</span>, options)  <span class="hljs-keyword">unless</span> $.data(<span class="hljs-keyword">this</span>, <span class="hljs-string">"plugin_"</span> + pluginName)
+      <span class="hljs-keyword">return</span>
+
+  <span class="hljs-keyword">return</span>
+) jQuery, <span class="hljs-built_in">window</span>, <span class="hljs-built_in">document</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-51">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-51">&#182;</a>
+              </div>
+              <p>Listen for clicks/touches. Hide if not interacting with the created element of the input.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>$<span class="hljs-function"><span class="hljs-params">(<span class="hljs-built_in">document</span>)</span>.<span class="hljs-title">on</span><span class="hljs-params">(<span class="hljs-string">"click"</span>, (e) =&gt;
+  _target = e.target || e.srcElement
+  _class = $(_target).attr(<span class="hljs-string">"class"</span>) || <span class="hljs-string">""</span>
+  $(<span class="hljs-string">".mcb_outer_container"</span>).hide()  <span class="hljs-keyword">if</span> _class.indexOf(<span class="hljs-string">"mcb_"</span>) <span class="hljs-keyword">is</span> -<span class="hljs-number">1</span>
+)</span>
+
+</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-52">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-52">&#182;</a>
+              </div>
+              <p>Hide the containers when the tab button is clicked.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>$<span class="hljs-function"><span class="hljs-params">(<span class="hljs-built_in">document</span>)</span>.<span class="hljs-title">on</span><span class="hljs-params">(<span class="hljs-string">"keydown"</span>, <span class="hljs-string">".mcb_input"</span>, (e) =&gt;
+  $(<span class="hljs-string">".mcb_outer_container"</span>).hide()  <span class="hljs-keyword">if</span> e.which <span class="hljs-keyword">is</span> <span class="hljs-number">9</span>
+)</span>
+
+</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-53">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-53">&#182;</a>
+              </div>
+              <p>Extending the Number object for formatting</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-attribute">Number</span>::<span class="hljs-function"><span class="hljs-title">format</span> = <span class="hljs-params">(n, x)</span> -&gt;</span>
+  re = <span class="hljs-string">"\\d(?=(\\d{"</span> + (x <span class="hljs-keyword">or</span> <span class="hljs-number">3</span>) + <span class="hljs-string">"})+"</span> + ((<span class="hljs-keyword">if</span> n &gt; <span class="hljs-number">0</span> <span class="hljs-keyword">then</span> <span class="hljs-string">"\\."</span> <span class="hljs-keyword">else</span> <span class="hljs-string">"$"</span>)) + <span class="hljs-string">")"</span>
+  <span class="hljs-property">@toFixed</span>(Math.max(<span class="hljs-number">0</span>, ~~n)).replace <span class="hljs-keyword">new</span> RegExp(re, <span class="hljs-string">"g"</span>), <span class="hljs-string">"$&amp;,"</span></pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>
