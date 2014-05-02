@@ -119,7 +119,7 @@
 
       while start < @options.integer.end
         val = (parseInt(start) + @returnIncrement(parseInt(start)))
-        @innerhtml += "<div class=\"mcb_inner\">" + @parseInteger(val) + "</div>"
+        @innerhtml += "<div class=\"mcb_inner\" data-inputelement=\"" + @el.attr("name") + "\">" + @parseInteger(val) + "</div>"
         start = val
 
       @injectLabel(@options.postlabel)
@@ -136,10 +136,10 @@
       return false  unless label
       @innerhtml += "<div class=\"mcb_inner\">" + label + "</div>"
 
-    setClickEvents: ->
+    setClickEvents: (obj) ->
       _this = @
       $(".mcb_inner_wrapper").children().on("click", ->
-        _this.el.val($(this).html())
+        $("input[name=" + $(this).data("inputelement") + "]").val($(this).html())
         _this.dd_div.hide()
       )
 

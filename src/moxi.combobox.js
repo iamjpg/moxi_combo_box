@@ -114,7 +114,7 @@
       this.innerhtml += "<div class=\"mcb_inner\">" + this.parseInteger(this.options.integer.start) + "</div>";
       while (start < this.options.integer.end) {
         val = parseInt(start) + this.returnIncrement(parseInt(start));
-        this.innerhtml += "<div class=\"mcb_inner\">" + this.parseInteger(val) + "</div>";
+        this.innerhtml += "<div class=\"mcb_inner\" data-inputelement=\"" + this.el.attr("name") + "\">" + this.parseInteger(val) + "</div>";
         start = val;
       }
       this.injectLabel(this.options.postlabel);
@@ -129,11 +129,11 @@
       }
       return this.innerhtml += "<div class=\"mcb_inner\">" + label + "</div>";
     },
-    setClickEvents: function() {
+    setClickEvents: function(obj) {
       var _this;
       _this = this;
       return $(".mcb_inner_wrapper").children().on("click", function() {
-        _this.el.val($(this).html());
+        $("input[name=" + $(this).data("inputelement") + "]").val($(this).html());
         return _this.dd_div.hide();
       });
     },
