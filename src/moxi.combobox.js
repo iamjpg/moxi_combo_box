@@ -27,12 +27,8 @@
     this.element = element;
     this.el = $(element);
     this.el.addClass("mcb_input");
-    this.resizeListener = void 0;
     this.innerhtml = "";
-    this.live_query_lock = false;
     this.options = $.extend(true, {}, defaults, options);
-    this._defaults = defaults;
-    this._name = pluginName;
     this.init();
   };
   Plugin.prototype = {
@@ -57,12 +53,10 @@
       return this.initLiveQuery();
     },
     initLiveQuery: function() {
-      var el;
-      if (!(this.options.livequery || this.live_query_lock)) {
+      if (!this.options.livequery) {
         return false;
       }
-      el = this.el;
-      return el.off("keypress").on("keyup", (function(_this) {
+      return this.el.off("keypress").on("keyup", (function(_this) {
         return function(e) {
           return _this.filterResults();
         };
@@ -145,7 +139,7 @@
       if (val === undefined) {
         return false;
       }
-      if (this.options.integer) {
+      if (this.options.integer.start) {
         val = val.format();
       } else {
         val = val;
