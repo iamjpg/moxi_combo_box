@@ -167,7 +167,7 @@
     # created integer fields.
     injectLabel: (label) ->
       return false  unless label
-      @innerhtml += "<div class=\"mcb_inner\">" + label + "</div>"
+      @innerhtml += "<div class=\"mcb_inner mcb_label\">" + label + "</div>"
 
     # setClickEvents()
     # Responsible for setting click events on the individual dropdown divs.

@@ -125,7 +125,7 @@
       if (!label) {
         return false;
       }
-      return this.innerhtml += "<div class=\"mcb_inner\">" + label + "</div>";
+      return this.innerhtml += "<div class=\"mcb_inner mcb_label\">" + label + "</div>";
     },
     setClickEvents: function(obj) {
       var _this;
