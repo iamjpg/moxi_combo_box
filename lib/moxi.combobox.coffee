@@ -74,22 +74,25 @@
 
       $.each($(".mcb_inner_wrapper").children(), () ->
         _this = $(this)
-        if _this.html().replace(/[^0-9\.]+/g, '').indexOf(el.val()) is -1
+        if _this.html().indexOf(el.val()) is -1
           _this.hide()
         else
           _this.show()
       )
 
-      setTimeout(=>
-        if ($(".mcb_inner_wrapper").outerHeight() < $("#mcb_" + @el.attr("name")).outerHeight())
-          h = $(".mcb_inner_wrapper").outerHeight()
+      @setContainerHeight()
 
-        else
-          h = @options.containercss.height
+    setContainerHeight: ->
+      if ($(".mcb_inner_wrapper").outerHeight() <= $("#mcb_" + @el.attr("name")).outerHeight())
+        h = $(".mcb_inner_wrapper").outerHeight()
+        overflow = "none"
+      else
+        h = @options.containercss.height
+        overflow = "auto"
 
-        $("#mcb_" + @el.attr("name")).css
-          height: h
-      , 200)
+      $("#mcb_" + @el.attr("name")).css
+        height: h
+        overflow: overflow
 
 
     createContainer: ->

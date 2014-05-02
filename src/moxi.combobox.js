@@ -76,25 +76,27 @@
       $.each($(".mcb_inner_wrapper").children(), function() {
         var _this;
         _this = $(this);
-        if (_this.html().replace(/[^0-9\.]+/g, '').indexOf(el.val()) === -1) {
+        if (_this.html().indexOf(el.val()) === -1) {
           return _this.hide();
         } else {
           return _this.show();
         }
       });
-      return setTimeout((function(_this) {
-        return function() {
-          var h;
-          if ($(".mcb_inner_wrapper").outerHeight() < $("#mcb_" + _this.el.attr("name")).outerHeight()) {
-            h = $(".mcb_inner_wrapper").outerHeight();
-          } else {
-            h = _this.options.containercss.height;
-          }
-          return $("#mcb_" + _this.el.attr("name")).css({
-            height: h
-          });
-        };
-      })(this), 200);
+      return this.setContainerHeight();
+    },
+    setContainerHeight: function() {
+      var h, overflow;
+      if ($(".mcb_inner_wrapper").outerHeight() <= $("#mcb_" + this.el.attr("name")).outerHeight()) {
+        h = $(".mcb_inner_wrapper").outerHeight();
+        overflow = "none";
+      } else {
+        h = this.options.containercss.height;
+        overflow = "auto";
+      }
+      return $("#mcb_" + this.el.attr("name")).css({
+        height: h,
+        overflow: overflow
+      });
     },
     createContainer: function() {
       this.options.containercss.top = this.el_pos_y + this.el.outerHeight();
