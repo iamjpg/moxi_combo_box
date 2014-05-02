@@ -12,7 +12,7 @@ module.exports = function (grunt) {
       watch: {
         scripts: {
           files: ['lib/moxi.combobox.coffee'],
-          tasks: ['coffee', 'uglify'],
+          tasks: ['coffee', 'uglify', 'copy'],
           options: {
             spawn: false,
           }
@@ -35,6 +35,16 @@ module.exports = function (grunt) {
           }
         }
       },
+      copy: {
+        main: {
+          src: 'src/moxi.combobox.js',
+          dest: '../Search.Closure/sre.application/contrib/moxi.combobox.js',
+        },
+        sec: {
+          src: 'src/moxi.combobox.js',
+          dest: '../Search.Closure/public/javascripts/sre.search/contrib/moxi.combobox.js',
+        },
+      },
       docco: {
         debug: {
           src: ['lib/*.coffee'],
@@ -49,6 +59,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-coffee');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-docco');
 
     // Default task

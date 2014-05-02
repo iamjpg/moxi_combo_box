@@ -222,19 +222,24 @@
   return
 ) jQuery, window, document
 
-# Listen for clicks/touches. Hide if not interacting with the created element of the input.
-$(document).on("click", (e) =>
-  _target = e.target || e.srcElement
-  _class = $(_target).attr("class") || ""
-  $(".mcb_outer_container").hide()  if _class.indexOf("mcb_") is -1
-)
+(($) ->
 
-# Hide the containers when the tab button is clicked.
-$(document).on("keydown", ".mcb_input", (e) =>
-  $(".mcb_outer_container").hide()  if e.which is 9
-)
+  # Listen for clicks/touches. Hide if not interacting with the created element of the input.
+  $(document).on("click", (e) =>
+    _target = e.target || e.srcElement
+    _class = $(_target).attr("class") || ""
+    $(".mcb_outer_container").hide()  if _class.indexOf("mcb_") is -1
+  )
 
-# Extending the Number object for formatting
-Number::format = (n, x) ->
-  re = "\\d(?=(\\d{" + (x or 3) + "})+" + ((if n > 0 then "\\." else "$")) + ")"
-  @toFixed(Math.max(0, ~~n)).replace new RegExp(re, "g"), "$&,"
+  # Hide the containers when the tab button is clicked.
+  $(document).on("keydown", ".mcb_input", (e) =>
+    $(".mcb_outer_container").hide()  if e.which is 9
+  )
+
+  # Extending the Number object for formatting
+  Number::format = (n, x) ->
+    re = "\\d(?=(\\d{" + (x or 3) + "})+" + ((if n > 0 then "\\." else "$")) + ")"
+    @toFixed(Math.max(0, ~~n)).replace new RegExp(re, "g"), "$&,"
+
+
+) jQuery

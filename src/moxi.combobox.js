@@ -179,27 +179,27 @@
   };
 })(jQuery, window, document);
 
-$(document).on("click", (function(_this) {
-  return function(e) {
-    var _class, _target;
-    _target = e.target || e.srcElement;
-    _class = $(_target).attr("class") || "";
-    if (_class.indexOf("mcb_") === -1) {
-      return $(".mcb_outer_container").hide();
-    }
+(function($) {
+  $(document).on("click", (function(_this) {
+    return function(e) {
+      var _class, _target;
+      _target = e.target || e.srcElement;
+      _class = $(_target).attr("class") || "";
+      if (_class.indexOf("mcb_") === -1) {
+        return $(".mcb_outer_container").hide();
+      }
+    };
+  })(this));
+  $(document).on("keydown", ".mcb_input", (function(_this) {
+    return function(e) {
+      if (e.which === 9) {
+        return $(".mcb_outer_container").hide();
+      }
+    };
+  })(this));
+  return Number.prototype.format = function(n, x) {
+    var re;
+    re = "\\d(?=(\\d{" + (x || 3) + "})+" + (n > 0 ? "\\." : "$") + ")";
+    return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, "g"), "$&,");
   };
-})(this));
-
-$(document).on("keydown", ".mcb_input", (function(_this) {
-  return function(e) {
-    if (e.which === 9) {
-      return $(".mcb_outer_container").hide();
-    }
-  };
-})(this));
-
-Number.prototype.format = function(n, x) {
-  var re;
-  re = "\\d(?=(\\d{" + (x || 3) + "})+" + (n > 0 ? "\\." : "$") + ")";
-  return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, "g"), "$&,");
-};
+})(jQuery);
