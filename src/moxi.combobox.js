@@ -37,8 +37,6 @@
   };
   Plugin.prototype = {
     init: function() {
-      this.setResizeListener();
-      this.setElementPosition();
       this.createContainer();
       if (this.options.integer.start) {
         this.dynamicIntegerValues();
@@ -53,7 +51,7 @@
           $(".mcb_outer_container").hide();
           return $("#mcb_" + _this.el.attr("name")).css("height", 0).show().stop().animate({
             height: _this.options.containercss.height
-          });
+          }, function() {});
         };
       })(this));
       return this.initLiveQuery();
@@ -84,29 +82,33 @@
       });
       return this.setContainerHeight();
     },
-    setContainerHeight: function() {
-      var h, overflow;
+    calculateContainerHeight: function() {
+      var obj;
+      obj = {};
       if ($(".mcb_inner_wrapper").outerHeight() <= $("#mcb_" + this.el.attr("name")).outerHeight()) {
-        h = $(".mcb_inner_wrapper").outerHeight();
-        overflow = "none";
+        obj.h = $(".mcb_inner_wrapper").outerHeight();
+        obj.overflow = "none";
       } else {
-        h = this.options.containercss.height;
-        overflow = "auto";
+        obj.h = this.options.containercss.height;
+        obj.overflow = "auto";
       }
+      return obj;
+    },
+    setContainerHeight: function() {
+      var obj;
+      obj = this.calculateContainerHeight();
       return $("#mcb_" + this.el.attr("name")).css({
-        height: h,
-        overflow: overflow
+        height: obj.h,
+        overflow: obj.overflow
       });
     },
     createContainer: function() {
-      this.options.containercss.top = this.el_pos_y + this.el.outerHeight();
-      this.options.containercss.left = this.el_pos_x;
       this.options.containercss.display = "none";
       $("<div />", {
         id: "mcb_" + this.el.attr("name"),
         "class": "mcb_outer_container",
         css: this.options.containercss
-      }).appendTo("body");
+      }).appendTo(this.el.parent());
       return this.dd_div = $("#mcb_" + this.el.attr("name"));
     },
     dynamicIntegerValues: function() {
@@ -172,27 +174,6 @@
       } else {
         return inc = 1000000;
       }
-    },
-    setElementPosition: function() {
-      this.el_pos_y = this.el.offset().top;
-      return this.el_pos_x = this.el.offset().left;
-    },
-    setResizeListener: function() {
-      return window.onresize = (function(_this) {
-        return function() {
-          clearTimeout(_this.resizeListener);
-          _this.resizeListener = setTimeout(function() {
-            return _this.resizedWindow();
-          }, 200);
-        };
-      })(this);
-    },
-    resizedWindow: function() {
-      this.setElementPosition();
-      return $("#mcb_" + this.el.attr("name")).css({
-        top: this.el_pos_y + this.el.outerHeight(),
-        left: this.el_pos_x
-      });
     }
   };
   $.fn[pluginName] = function(options) {

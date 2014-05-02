@@ -38,8 +38,6 @@
   Plugin:: =
 
     init: ->
-      @setResizeListener()
-      @setElementPosition()
       @createContainer()
       @dynamicIntegerValues()  if @options.integer.start
       @setGeneralEvents()
@@ -54,7 +52,9 @@
         .css("height", 0)
         .show()
         .stop()
-        .animate({ height : @options.containercss.height })
+        .animate({ height : @options.containercss.height }, =>
+          #@setContainerHeight()
+        )
       )
 
       @initLiveQuery()
@@ -82,24 +82,31 @@
 
       @setContainerHeight()
 
-    setContainerHeight: ->
+    calculateContainerHeight: ->
+      obj = {}
       if ($(".mcb_inner_wrapper").outerHeight() <= $("#mcb_" + @el.attr("name")).outerHeight())
-        h = $(".mcb_inner_wrapper").outerHeight()
-        overflow = "none"
+        obj.h = $(".mcb_inner_wrapper").outerHeight()
+        obj.overflow = "none"
       else
-        h = @options.containercss.height
-        overflow = "auto"
+        obj.h = @options.containercss.height
+        obj.overflow = "auto"
+
+      obj
+
+    setContainerHeight: ->
+
+      obj = @calculateContainerHeight()
 
       $("#mcb_" + @el.attr("name")).css
-        height: h
-        overflow: overflow
+        height: obj.h
+        overflow: obj.overflow
 
 
     createContainer: ->
 
       # Set the top and left css properties
-      @options.containercss.top = @el_pos_y + @el.outerHeight()
-      @options.containercss.left = @el_pos_x
+      #@options.containercss.top = @el_pos_y + @el.outerHeight()
+      #@options.containercss.left = @el_pos_x
 
       @options.containercss.display = "none"
 
@@ -108,7 +115,7 @@
         id: "mcb_" + @el.attr("name")
         class: "mcb_outer_container"
         css: @options.containercss
-      ).appendTo "body"
+      ).appendTo @el.parent()
 
       @dd_div = $("#mcb_" + @el.attr("name"))
 
@@ -176,27 +183,6 @@
         inc = 100000
       else
         inc = 1000000
-
-
-    setElementPosition: ->
-      # set the x/y of the element.
-      @el_pos_y = @el.offset().top
-      @el_pos_x = @el.offset().left
-
-    setResizeListener: ->
-      window.onresize = =>
-        clearTimeout @resizeListener
-        @resizeListener = setTimeout(=>
-          @resizedWindow()
-        , 200)
-        return
-
-    resizedWindow: ->
-      @setElementPosition()
-
-      $("#mcb_" + @el.attr("name")).css
-        top: @el_pos_y + @el.outerHeight()
-        left: @el_pos_x
 
 
 
