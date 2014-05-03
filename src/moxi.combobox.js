@@ -33,9 +33,16 @@
   };
   Plugin.prototype = {
     init: function() {
+      if (this.options.destroy) {
+        this.destroy();
+        return false;
+      }
       this.createContainer();
       if (this.options.integer.start) {
         this.dynamicIntegerValues();
+      }
+      if (this.options.data) {
+        this.populateArrayValues();
       }
       return this.setGeneralEvents();
     },
@@ -47,7 +54,9 @@
           $(".mcb_outer_container").hide();
           return $("#mcb_" + _this.el.attr("name")).css("height", 0).show().stop().animate({
             height: _this.options.containercss.height
-          }, function() {});
+          }, function() {
+            return $(this).css("overflow", "auto");
+          });
         };
       })(this));
       return this.initLiveQuery();
@@ -65,7 +74,7 @@
     filterResults: function() {
       var el;
       el = this.el;
-      $.each($(".mcb_inner_wrapper").children(), function() {
+      return $.each($(".mcb_inner_wrapper").children(), function() {
         var _this;
         _this = $(this);
         if (_this.html().indexOf(el.val()) === -1) {
@@ -74,7 +83,6 @@
           return _this.show();
         }
       });
-      return this.setContainerHeight();
     },
     calculateContainerHeight: function() {
       var obj;
@@ -104,6 +112,19 @@
         css: this.options.containercss
       }).appendTo(this.el.parent());
       return this.dd_div = $("#mcb_" + this.el.attr("name"));
+    },
+    populateArrayValues: function() {
+      this.injectLabel(this.options.prelabel);
+      $.each(this.options.data, (function(_this) {
+        return function(i, o) {
+          return _this.innerhtml += "<div class=\"mcb_inner\" data-inputelement=\"" + _this.el.attr("name") + "\">" + o + "</div>";
+        };
+      })(this));
+      this.injectLabel(this.options.postlabel);
+      this.dd_div.html(this.innerhtml);
+      $("#mcb_" + this.el.attr("name")).wrapInner("<div class=\"mcb_inner_wrapper\"></div>");
+      $(".mcb_inner").css(this.options.innercss);
+      return this.setClickEvents();
     },
     dynamicIntegerValues: function() {
       var start, val;
@@ -168,13 +189,14 @@
       } else {
         return inc = 1000000;
       }
+    },
+    destroy: function() {
+      return this.el.unbind("focus").unbind("keyup").unbind("click");
     }
   };
   $.fn[pluginName] = function(options) {
     return this.each(function() {
-      if (!$.data(this, "plugin_" + pluginName)) {
-        $.data(this, "plugin_" + pluginName, new Plugin(this, options));
-      }
+      $.data(this, "plugin_" + pluginName, new Plugin(this, options));
     });
   };
 })(jQuery, window, document);

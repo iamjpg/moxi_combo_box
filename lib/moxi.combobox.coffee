@@ -49,11 +49,15 @@
   Plugin:: =
     # init()
     init: ->
+      if @options.destroy
+        @destroy()
+        return false
       # Create the container for dropdown
       @createContainer()
       # If the plugin user passes an integer range, then create the dropdown
       # dynamically
       @dynamicIntegerValues()  if @options.integer.start
+      @populateArrayValues()  if @options.data
       # Set events
       @setGeneralEvents()
 
@@ -68,8 +72,8 @@
         .css("height", 0)
         .show()
         .stop()
-        .animate({ height : @options.containercss.height }, =>
-          #@setContainerHeight()
+        .animate({ height : @options.containercss.height }, ->
+          $(this).css("overflow","auto")
         )
       )
       # Enable live query
@@ -97,7 +101,7 @@
           _this.show()
       )
       # Set the container height based on the new filtered list
-      @setContainerHeight()
+      # @setContainerHeight()
 
     # calculateContainerHeight()
     # Returns an object containing the values for container height + overflow
@@ -135,6 +139,20 @@
       ).appendTo @el.parent()
       # Object reference to the drop down container
       @dd_div = $("#mcb_" + @el.attr("name"))
+
+    populateArrayValues: ->
+      @injectLabel(@options.prelabel)
+      $.each(@options.data, (i,o) =>
+        @innerhtml += "<div class=\"mcb_inner\" data-inputelement=\"" + @el.attr("name") + "\">" + o + "</div>"
+      )
+      @injectLabel(@options.postlabel)
+      @dd_div.html(@innerhtml)
+      #Wrap the innerhtml with another div
+      $("#mcb_" + @el.attr("name")).wrapInner("<div class=\"mcb_inner_wrapper\"></div>")
+      # Set the CSS on the individual divs
+      $(".mcb_inner").css(@options.innercss)
+      # set click events
+      @setClickEvents()
 
     # dynamicIntegerValues()
     # Responsible for creating the interior dropdown values from the numeric
@@ -212,11 +230,14 @@
       else
         inc = 1000000
 
+    destroy: ->
+      @el.unbind("focus").unbind("keyup").unbind("click")
+
 
   # Plugin constructor wrapper
   $.fn[pluginName] = (options) ->
     @each ->
-      $.data this, "plugin_" + pluginName, new Plugin(this, options)  unless $.data(this, "plugin_" + pluginName)
+      $.data this, "plugin_" + pluginName, new Plugin(this, options)
       return
 
   return
