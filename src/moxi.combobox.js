@@ -121,6 +121,9 @@
         };
       })(this));
       this.injectLabel(this.options.postlabel);
+      return this.writeInnerHtml();
+    },
+    writeInnerHtml: function() {
       this.dd_div.html(this.innerhtml);
       $("#mcb_" + this.el.attr("name")).wrapInner("<div class=\"mcb_inner_wrapper\"></div>");
       $(".mcb_inner").css(this.options.innercss);
@@ -137,10 +140,7 @@
         start = val;
       }
       this.injectLabel(this.options.postlabel);
-      this.dd_div.html(this.innerhtml);
-      $("#mcb_" + this.el.attr("name")).wrapInner("<div class=\"mcb_inner_wrapper\"></div>");
-      $(".mcb_inner").css(this.options.innercss);
-      return this.setClickEvents();
+      return this.writeInnerHtml();
     },
     injectLabel: function(label) {
       if (!label) {

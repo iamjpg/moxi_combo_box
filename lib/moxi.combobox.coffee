@@ -146,6 +146,10 @@
         @innerhtml += "<div class=\"mcb_inner\" data-inputelement=\"" + @el.attr("name") + "\">" + o + "</div>"
       )
       @injectLabel(@options.postlabel)
+
+      @writeInnerHtml()
+
+    writeInnerHtml: ->
       @dd_div.html(@innerhtml)
       #Wrap the innerhtml with another div
       $("#mcb_" + @el.attr("name")).wrapInner("<div class=\"mcb_inner_wrapper\"></div>")
@@ -171,14 +175,8 @@
         start = val
       # Inject the postlabel if there is one
       @injectLabel(@options.postlabel)
-      # Print innerhtml to the dropdown div
-      @dd_div.html(@innerhtml)
-      #Wrap the innerhtml with another div
-      $("#mcb_" + @el.attr("name")).wrapInner("<div class=\"mcb_inner_wrapper\"></div>")
-      # Set the CSS on the individual divs
-      $(".mcb_inner").css(@options.innercss)
-      # set click events
-      @setClickEvents()
+
+      @writeInnerHtml()
 
     # injectLabel()
     # Responsible for injecting labels like "No Min" or "No Max" for dynamically
