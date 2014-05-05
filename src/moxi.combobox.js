@@ -77,7 +77,7 @@
       return $.each($(".mcb_inner_wrapper").children(), function() {
         var _this;
         _this = $(this);
-        if (_this.html().indexOf(el.val()) === -1) {
+        if (_this.html().replace(/,/g, "").indexOf(el.val()) === -1) {
           return _this.hide();
         } else {
           return _this.show();

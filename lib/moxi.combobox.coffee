@@ -95,7 +95,7 @@
       # loop the elements looking for a match then show or hide element.
       $.each($(".mcb_inner_wrapper").children(), () ->
         _this = $(this)
-        if _this.html().indexOf(el.val()) is -1
+        if _this.html().replace(/,/g, "").indexOf(el.val()) is -1
           _this.hide()
         else
           _this.show()
