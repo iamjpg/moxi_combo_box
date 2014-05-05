@@ -146,13 +146,15 @@
       if (!label) {
         return false;
       }
-      return this.innerhtml += "<div class=\"mcb_inner mcb_label\">" + label + "</div>";
+      return this.innerhtml += "<div class=\"mcb_inner mcb_label mcb_pre_post_label\" data-inputelement=\"" + this.el.attr("name") + "\">" + label + "</div>";
     },
     setClickEvents: function(obj) {
       var _this;
       _this = this;
       return $(".mcb_inner_wrapper").children().on("click", function() {
-        $("input[name=" + $(this).data("inputelement") + "]").val($(this).html());
+        var val;
+        val = $(this).hasClass("mcb_pre_post_label") ? "" : $(this).html();
+        $("input[name=" + $(this).data("inputelement") + "]").val(val);
         return _this.dd_div.hide();
       });
     },

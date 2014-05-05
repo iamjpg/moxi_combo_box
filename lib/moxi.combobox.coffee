@@ -183,14 +183,15 @@
     # created integer fields.
     injectLabel: (label) ->
       return false  unless label
-      @innerhtml += "<div class=\"mcb_inner mcb_label\">" + label + "</div>"
+      @innerhtml += "<div class=\"mcb_inner mcb_label mcb_pre_post_label\" data-inputelement=\"" + @el.attr("name") + "\">" + label + "</div>"
 
     # setClickEvents()
     # Responsible for setting click events on the individual dropdown divs.
     setClickEvents: (obj) ->
       _this = @
       $(".mcb_inner_wrapper").children().on("click", ->
-        $("input[name=" + $(this).data("inputelement") + "]").val($(this).html())
+        val = if ($(this).hasClass("mcb_pre_post_label")) then "" else $(this).html()
+        $("input[name=" + $(this).data("inputelement") + "]").val(val)
         _this.dd_div.hide()
       )
 
