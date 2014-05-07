@@ -1,3 +1,9 @@
+var wsllc_ls_acres, wsllc_ls_sqft;
+
+wsllc_ls_acres = [".25 acres", ".5 acres", "1 acre", "2 acres", "3 acres", "4 acres", "5 acres", "10 acres", "40 acres", "100+ acres"];
+
+wsllc_ls_sqft = ["2,000 SF", "4,500 SF", "6,500 SF", "8,000 SF", "10,890 SF", "21,780 SF"];
+
 (function($, window, document) {
   var Plugin, defaults, pluginName;
   pluginName = "moxiComboBox";
@@ -9,6 +15,7 @@
       height: 200,
       background: "#f5f5f5",
       overflow: "auto",
+      "z-index": 50000,
       "-webkit-box-shadow": "0 5px 10px 0 #B8B8B8",
       "box-shadow": "0 5px 10px 0 #B8B8B8"
     },
@@ -133,7 +140,7 @@
       var start, val;
       this.injectLabel(this.options.prelabel);
       start = parseInt(this.options.integer.start);
-      this.innerhtml += "<div class=\"mcb_inner\">" + this.parseInteger(this.options.integer.start) + "</div>";
+      this.innerhtml += "<div class=\"mcb_inner\" data-inputelement=\"" + this.el.attr("name") + "\">" + this.parseInteger(this.options.integer.start) + "</div>";
       while (start < this.options.integer.end) {
         val = parseInt(start) + this.returnIncrement(parseInt(start));
         this.innerhtml += "<div class=\"mcb_inner\" data-inputelement=\"" + this.el.attr("name") + "\">" + this.parseInteger(val) + "</div>";
@@ -151,7 +158,7 @@
     setClickEvents: function(obj) {
       var _this;
       _this = this;
-      return $(".mcb_inner_wrapper").children().on("click", function() {
+      return $(".mcb_inner_wrapper").children().on("click", function(e) {
         var val;
         val = $(this).hasClass("mcb_pre_post_label") ? "" : $(this).html();
         $("input[name=" + $(this).data("inputelement") + "]").val(val);

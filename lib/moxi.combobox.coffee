@@ -1,3 +1,7 @@
+wsllc_ls_acres = [".25 acres", ".5 acres", "1 acre", "2 acres", "3 acres", "4 acres", "5 acres", "10 acres", "40 acres", "100+ acres"]
+wsllc_ls_sqft = ["2,000 SF", "4,500 SF", "6,500 SF", "8,000 SF", "10,890 SF", "21,780 SF"]
+
+
 #
 # * jQuery ComboBox Plugin
 # * Original author: @iamjpg <jgiven@gmail.com>
@@ -18,6 +22,7 @@
       height: 200
       background: "#f5f5f5"
       overflow: "auto"
+      "z-index": 50000
       "-webkit-box-shadow": "0 5px 10px 0 #B8B8B8"
       "box-shadow": "0 5px 10px 0 #B8B8B8"
     innercss:
@@ -167,7 +172,7 @@
       # The numeric start value
       start = parseInt(@options.integer.start)
       # create the first div with the first value
-      @innerhtml += "<div class=\"mcb_inner\">" + @parseInteger(@options.integer.start) + "</div>"
+      @innerhtml += "<div class=\"mcb_inner\" data-inputelement=\"" + @el.attr("name") + "\">" + @parseInteger(@options.integer.start) + "</div>"
       # Loop over integer range creating dropdown values
       while start < @options.integer.end
         val = (parseInt(start) + @returnIncrement(parseInt(start)))
@@ -189,7 +194,7 @@
     # Responsible for setting click events on the individual dropdown divs.
     setClickEvents: (obj) ->
       _this = @
-      $(".mcb_inner_wrapper").children().on("click", ->
+      $(".mcb_inner_wrapper").children().on("click", (e) ->
         val = if ($(this).hasClass("mcb_pre_post_label")) then "" else $(this).html()
         $("input[name=" + $(this).data("inputelement") + "]").val(val)
         _this.dd_div.hide()
