@@ -159,9 +159,11 @@ wsllc_ls_sqft = ["2,000 SF", "4,500 SF", "6,500 SF", "8,000 SF", "10,890 SF", "2
       var _this;
       _this = this;
       return $(".mcb_inner_wrapper").children().on("click", function(e) {
-        var val;
-        val = $(this).hasClass("mcb_pre_post_label") ? "" : $(this).html();
-        $("input[name=" + $(this).data("inputelement") + "]").val(val);
+        if ($(this).hasClass("mcb_pre_post_label")) {
+          $(".mcb_outer_container").hide();
+          return false;
+        }
+        $("input[name=" + $(this).data("inputelement") + "]").val($(this).html());
         return _this.dd_div.hide();
       });
     },

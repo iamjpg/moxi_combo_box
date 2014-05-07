@@ -195,8 +195,10 @@ wsllc_ls_sqft = ["2,000 SF", "4,500 SF", "6,500 SF", "8,000 SF", "10,890 SF", "2
     setClickEvents: (obj) ->
       _this = @
       $(".mcb_inner_wrapper").children().on("click", (e) ->
-        val = if ($(this).hasClass("mcb_pre_post_label")) then "" else $(this).html()
-        $("input[name=" + $(this).data("inputelement") + "]").val(val)
+        if ($(this).hasClass("mcb_pre_post_label"))
+          $(".mcb_outer_container").hide()
+          return false
+        $("input[name=" + $(this).data("inputelement") + "]").val($(this).html())
         _this.dd_div.hide()
       )
 
