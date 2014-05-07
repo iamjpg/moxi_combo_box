@@ -71,7 +71,7 @@ wsllc_ls_sqft = ["2,000 SF", "4,500 SF", "6,500 SF", "8,000 SF", "10,890 SF", "2
       # Local object reference
       _this = @
       # On focus of input element, animate the corresponding dropdown.
-      @el.on("focus", =>
+      @el.on("focus.moxicombobox", =>
         $(".mcb_outer_container").hide()
         $("#mcb_" + @el.attr("name"))
         .css("height", 0)
@@ -89,7 +89,7 @@ wsllc_ls_sqft = ["2,000 SF", "4,500 SF", "6,500 SF", "8,000 SF", "10,890 SF", "2
       # return false if user opts out of livequery
       return false  unless @options.livequery
       # On keyup, filter results
-      @el.off("keypress").on("keyup", (e) =>
+      @el.off("keypress").on("keyup.moxicombo", (e) =>
         @filterResults()
       )
 
@@ -237,7 +237,7 @@ wsllc_ls_sqft = ["2,000 SF", "4,500 SF", "6,500 SF", "8,000 SF", "10,890 SF", "2
         inc = 1000000
 
     destroy: ->
-      @el.unbind("focus").unbind("keyup").unbind("click")
+      @el.unbind("focus.moxicombobox").unbind("keyup.moxicombo").unbind("click")
 
 
   # Plugin constructor wrapper

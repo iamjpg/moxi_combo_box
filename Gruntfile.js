@@ -45,7 +45,7 @@ module.exports = function (grunt) {
           dest: '../Search.Closure/public/javascripts/sre.search/contrib/moxi.combobox.js',
         },
         www: {
-          src: 'src/moxi.combobox.js',
+          src: 'src/moxi.combobox.min.js',
           dest: '../www/app/assets/javascripts/moxi.combobox.min.js',
         },
       },
