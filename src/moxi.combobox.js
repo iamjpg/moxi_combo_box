@@ -56,7 +56,7 @@ wsllc_ls_sqft = ["2,000 SF", "4,500 SF", "6,500 SF", "8,000 SF", "10,890 SF", "2
     setGeneralEvents: function() {
       var _this;
       _this = this;
-      this.el.on("focus.moxicombobox", (function(_this) {
+      this.el.on("focus.moxicombo", (function(_this) {
         return function() {
           $(".mcb_outer_container").hide();
           return $("#mcb_" + _this.el.attr("name")).css("height", 0).show().stop().animate({
@@ -202,7 +202,7 @@ wsllc_ls_sqft = ["2,000 SF", "4,500 SF", "6,500 SF", "8,000 SF", "10,890 SF", "2
       }
     },
     destroy: function() {
-      return this.el.unbind("focus.moxicombobox").unbind("keyup.moxicombo").unbind("click");
+      return this.el.unbind("focus.moxicombo").unbind("keyup.moxicombo").unbind("click");
     }
   };
   $.fn[pluginName] = function(options) {

@@ -71,7 +71,7 @@ wsllc_ls_sqft = ["2,000 SF", "4,500 SF", "6,500 SF", "8,000 SF", "10,890 SF", "2
       # Local object reference
       _this = @
       # On focus of input element, animate the corresponding dropdown.
-      @el.on("focus.moxicombobox", =>
+      @el.on("focus.moxicombo", =>
         $(".mcb_outer_container").hide()
         $("#mcb_" + @el.attr("name"))
         .css("height", 0)
@@ -237,7 +237,7 @@ wsllc_ls_sqft = ["2,000 SF", "4,500 SF", "6,500 SF", "8,000 SF", "10,890 SF", "2
         inc = 1000000
 
     destroy: ->
-      @el.unbind("focus.moxicombobox").unbind("keyup.moxicombo").unbind("click")
+      @el.unbind("focus.moxicombo").unbind("keyup.moxicombo").unbind("click")
 
 
   # Plugin constructor wrapper
