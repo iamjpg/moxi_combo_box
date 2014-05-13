@@ -1,8 +1,10 @@
-var wsllc_ls_acres, wsllc_ls_sqft;
+var wsllc_ls_acres, wsllc_ls_bathmin, wsllc_ls_sqft;
 
 wsllc_ls_acres = [".25 acres", ".5 acres", "1 acre", "2 acres", "3 acres", "4 acres", "5 acres", "10 acres", "40 acres", "100+ acres"];
 
 wsllc_ls_sqft = ["2,000 SF", "4,500 SF", "6,500 SF", "8,000 SF", "10,890 SF", "21,780 SF"];
+
+wsllc_ls_bathmin = ["1+ Baths", "1.25+ Baths", "1.5+ Baths", "1.75+ Baths", "2+ Baths", "2.25+ Baths", "2.5+ Baths", "2.75+ Baths", "3+ Baths", "3.25+ Baths", "3.5+ Baths", "3.75+ Baths", "4+ Baths", "4.25+ Baths", "4.50+ Baths", "4.75+ Baths", "5+ Baths"];
 
 (function($, window, document) {
   var Plugin, defaults, pluginName;
@@ -81,10 +83,10 @@ wsllc_ls_sqft = ["2,000 SF", "4,500 SF", "6,500 SF", "8,000 SF", "10,890 SF", "2
     filterResults: function() {
       var el;
       el = this.el;
-      return $.each($(".mcb_inner_wrapper").children(), function() {
+      return $.each($(document.activeElement).parent().find(".mcb_outer_container").children(":first").children(), function() {
         var _this;
         _this = $(this);
-        if (_this.html().replace(/,/g, "").indexOf(el.val()) === -1) {
+        if (_this.html().replace(/[^0-9\.]+/g, '').indexOf(el.val().replace(/[^0-9\.]+/g, '')) !== 0) {
           return _this.hide();
         } else {
           return _this.show();
@@ -161,6 +163,8 @@ wsllc_ls_sqft = ["2,000 SF", "4,500 SF", "6,500 SF", "8,000 SF", "10,890 SF", "2
       return $(".mcb_inner_wrapper").children().on("click", function(e) {
         if ($(this).hasClass("mcb_pre_post_label")) {
           $(".mcb_outer_container").hide();
+          $("input[name=" + $(this).data("inputelement") + "]").val("");
+          Placeholders.enable();
           return false;
         }
         $("input[name=" + $(this).data("inputelement") + "]").val($(this).html());
