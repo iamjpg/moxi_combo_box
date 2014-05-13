@@ -61,11 +61,14 @@ wsllc_ls_bathmin = ["1+ Baths", "1.25+ Baths", "1.5+ Baths", "1.75+ Baths", "2+ 
       this.el.on("focus.moxicombo", (function(_this) {
         return function() {
           $(".mcb_outer_container").hide();
-          return $("#mcb_" + _this.el.attr("name")).css("height", 0).show().stop().animate({
+          $("#mcb_" + _this.el.attr("name")).css("height", 0).show().stop().animate({
             height: _this.options.containercss.height
           }, function() {
             return $(this).css("overflow", "auto");
           });
+          if (_this.options.livequery) {
+            return _this.filterResults();
+          }
         };
       })(this));
       return this.initLiveQuery();
@@ -84,9 +87,10 @@ wsllc_ls_bathmin = ["1+ Baths", "1.25+ Baths", "1.5+ Baths", "1.75+ Baths", "2+ 
       var el;
       el = this.el;
       return $.each($(document.activeElement).parent().find(".mcb_outer_container").children(":first").children(), function() {
-        var _this;
+        var val, _this;
         _this = $(this);
-        if (_this.html().replace(/[^0-9\.]+/g, '').indexOf(el.val().replace(/[^0-9\.]+/g, '')) !== 0) {
+        val = el.val().replace(/[^0-9\.]+/g, '');
+        if (_this.html().replace(/[^0-9\.]+/g, '').substring(0, val.length).indexOf(val) !== 0) {
           return _this.hide();
         } else {
           return _this.show();

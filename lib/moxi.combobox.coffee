@@ -81,6 +81,7 @@ wsllc_ls_bathmin = [ "1+ Baths", "1.25+ Baths", "1.5+ Baths", "1.75+ Baths", "2+
         .animate({ height : @options.containercss.height }, ->
           $(this).css("overflow","auto")
         )
+        @filterResults()  if @options.livequery
       )
       # Enable live query
       @initLiveQuery()
@@ -101,7 +102,8 @@ wsllc_ls_bathmin = [ "1+ Baths", "1.25+ Baths", "1.5+ Baths", "1.75+ Baths", "2+
       # loop the elements looking for a match then show or hide element.
       $.each($(document.activeElement).parent().find(".mcb_outer_container").children(":first").children(), () ->
         _this = $(this)
-        if _this.html().replace(/[^0-9\.]+/g, '').indexOf(el.val().replace(/[^0-9\.]+/g, '')) != 0
+        val = el.val().replace(/[^0-9\.]+/g, '')
+        if _this.html().replace(/[^0-9\.]+/g, '').substring(0, val.length).indexOf(val) != 0
           _this.hide()
         else
           _this.show()
