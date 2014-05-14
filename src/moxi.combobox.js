@@ -61,17 +61,21 @@ wsllc_ls_bathmin = ["1+ Baths", "1.25+ Baths", "1.5+ Baths", "1.75+ Baths", "2+ 
       this.el.on("focus.moxicombo", (function(_this) {
         return function() {
           $(".mcb_outer_container").hide();
-          $("#mcb_" + _this.el.attr("name")).css("height", 0).show().stop().animate({
+          return $("#mcb_" + _this.el.attr("name")).css("height", 0).show().stop().animate({
             height: _this.options.containercss.height
           }, function() {
             return $(this).css("overflow", "auto");
           });
-          if (_this.options.livequery) {
-            return _this.filterResults();
-          }
         };
       })(this));
-      return this.initLiveQuery();
+      this.initLiveQuery();
+      return this.el.on("blur.moxicombo", (function(_this) {
+        return function() {
+          return setTimeout(function() {
+            return $(".mcb_inner").show();
+          }, 500);
+        };
+      })(this));
     },
     initLiveQuery: function() {
       if (!this.options.livequery) {

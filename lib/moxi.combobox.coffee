@@ -81,10 +81,16 @@ wsllc_ls_bathmin = [ "1+ Baths", "1.25+ Baths", "1.5+ Baths", "1.75+ Baths", "2+
         .animate({ height : @options.containercss.height }, ->
           $(this).css("overflow","auto")
         )
-        @filterResults()  if @options.livequery
+        # @filterResults()  if @options.livequery
       )
       # Enable live query
       @initLiveQuery()
+      
+      @el.on("blur.moxicombo", =>
+        setTimeout(->
+          $(".mcb_inner").show()
+        , 500)
+      )
 
     # initLiveQuery()
     initLiveQuery: ->
